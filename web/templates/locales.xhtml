@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="style_main.css"/>
+    </h:head>
+    <h:body>
+
+        <ui:composition>
+            <div class="locales">
+                <h:form>
+                    <p>
+                        <h:commandLink actionListener="#{localeChanger.setEnglish}">
+                            <h:graphicImage library="images" name="usa.gif" title="#{msg.eng}"/>
+                            <f:ajax render=":login_div :lib_title" execute="@form" disabled="#{fn:contains(request.requestURI,'books.xhtml')}"/>
+                            <f:ajax render="@all" execute="@form" disabled="#{not fn:contains(request.requestURI,'books.xhtml')}"/>
+                        </h:commandLink>
+
+                        <h:commandLink actionListener="#{localeChanger.setRussian}">
+                            <h:graphicImage library="images" name="ru.gif" title="#{msg.rus}"/>
+                            <f:ajax render=":login_div :lib_title" execute="@form" disabled="#{fn:contains(request.requestURI,'books.xhtml')}"/>
+                            <f:ajax render="@all" execute="@form" disabled="#{not fn:contains(request.requestURI,'books.xhtml')}"/>
+                        </h:commandLink>
+
+                        <h:commandLink actionListener="#{localeChanger.setUkrainian}">
+                            <h:graphicImage library="images" name="ua.png" title="#{msg.ukr}"/>
+                            <f:ajax render=":login_div :lib_title" execute="@form" disabled="#{fn:contains(request.requestURI,'books.xhtml')}"/>
+                            <f:ajax render="@all" execute="@form" disabled="#{not fn:contains(request.requestURI,'books.xhtml')}"/>
+                        </h:commandLink>
+                    </p>
+                </h:form>
+            </div>
+        </ui:composition>
+
+
+    </h:body>
+</html>
+
