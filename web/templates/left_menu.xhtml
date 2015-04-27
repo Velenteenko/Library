@@ -20,7 +20,7 @@
                     <f:ajax onevent="showProgress" event="click" render="@form :booksCount :booksForm :booksList :lettersForm :pages1 :pages2" listener="#{bookListController.fillBooksByGenre()}"/>
                 </h:commandLink>
 
-                <ui:repeat value="#{genreController.genreList}" var="g">
+                <ui:repeat value="#{genreConvertor.genreList}" var="g">
 
                     <h:commandLink value="#{g.name}" styleClass="#{g.id == bookListController.selectedGenreId ? 'selected_link':''}">
 

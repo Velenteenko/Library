@@ -1,5 +1,5 @@
 package ua.onlinelib.web.ENTITY;
-// Generated Apr 27, 2015 7:28:01 AM by Hibernate Tools 4.3.1
+// Generated Apr 27, 2015 2:48:34 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;

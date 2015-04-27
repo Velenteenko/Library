@@ -1,4 +1,4 @@
-package ua.onlinelib.web.controllers;
+package ua.onlinelib.web.converters;
 
 import java.io.Serializable;
 //import java.sql.Connection;
@@ -24,7 +24,7 @@ import ua.onlinelib.web.db.DataHelper;
 
 @ManagedBean(eager = false)
 @ApplicationScoped
-public class GenreController implements Serializable, Converter {
+public class GenreConvertor implements Serializable, Converter {
 
     private List<Genre> genreList;
     private Map<Long, Genre> genreMap;
@@ -32,7 +32,7 @@ public class GenreController implements Serializable, Converter {
 //    private List<SelectItem> ArrayList;
 //    private List<SelectItem> SelectItem;
 
-    public GenreController() {
+    public GenreConvertor() {
 //        fillAllGenres();
         genreMap = new HashMap<Long, Genre>();
         genreList = DataHelper.getInstance().getAllGenres();
@@ -63,7 +63,7 @@ public class GenreController implements Serializable, Converter {
 //            }
 //
 //        } catch (SQLException ex) {
-//            Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(GenreConvertor.class.getName()).log(Level.SEVERE, null, ex);
 //        } finally {
 //            try {
 //                if (stmt != null) {
@@ -76,7 +76,7 @@ public class GenreController implements Serializable, Converter {
 //                    conn.close();
 //                }
 //            } catch (SQLException ex) {
-//                Logger.getLogger(GenreController.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(GenreConvertor.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //        }
 //

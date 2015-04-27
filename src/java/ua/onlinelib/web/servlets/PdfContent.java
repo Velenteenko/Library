@@ -8,13 +8,14 @@ package ua.onlinelib.web.servlets;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
+//import java.net.URLDecoder;
 import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ua.onlinelib.web.controllers.BookListController;
+import ua.onlinelib.web.db.DataHelper;
 
 /**
  *
@@ -37,12 +38,13 @@ public class PdfContent extends HttpServlet {
 //        OutputStream out = response.getOutputStream();
 //        try {
             //params
-            int id = Integer.valueOf(request.getParameter("id"));
+            Long id = Long.valueOf(request.getParameter("id"));
             boolean save = Boolean.valueOf(request.getParameter("save"));
             String filename = request.getParameter("filename");
             ///
             BookListController searchController = (BookListController) request.getSession(false).getAttribute("bookListController");
-            byte[] content = searchController.getContent(id);
+//            byte[] content = searchController.getContent(id);
+            byte[] content = DataHelper.getInstance().getContent(id);
             if (content.length == 0) {
                 response.setContentType("text/html;charset=UTF-8");
                 PrintWriter outp = response.getWriter();

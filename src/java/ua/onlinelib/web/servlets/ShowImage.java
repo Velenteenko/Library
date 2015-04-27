@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ua.onlinelib.web.controllers.BookListController;
+import ua.onlinelib.web.db.DataHelper;
 
 /**
  *
@@ -33,11 +34,12 @@ public class ShowImage extends HttpServlet {
         response.setContentType("image/jpeg");
         OutputStream out = response.getOutputStream();
         try {
-            int id = Integer.valueOf(request.getParameter("id"));
+            Long id = Long.valueOf(request.getParameter("id"));
 
             BookListController searchController = (BookListController) request.getSession(false).getAttribute("bookListController");
 
-            byte[] image = searchController.getImage(id);
+//            byte[] image = searchController.getImage(id);
+            byte[] image = DataHelper.getInstance().getImage(id);
             response.setContentLength(image.length);
             out.write(image);
         } catch (NumberFormatException ex) {
