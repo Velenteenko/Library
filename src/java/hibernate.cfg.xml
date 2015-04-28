@@ -3,10 +3,6 @@
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/library?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">root</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.connection.datasource">jdbc/Library</property>
     <mapping resource="ua/onlinelib/web/ENTITY/Genre.hbm.xml"/>

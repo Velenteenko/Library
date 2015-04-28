@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import ua.onlinelib.web.ENTITY.Book;
+import ua.onlinelib.web.beans.Pager;
 //import ua.onlinelib.web.beans.Book;
 import ua.onlinelib.web.db.DataHelper;
 //import ua.onlinelib.web.db.Database;
@@ -25,19 +26,21 @@ import ua.onlinelib.web.enums.SearchType;
 @SessionScoped
 public class BookListController implements Serializable {
 
-    private List<Book> currentBookList; // текущий список книг для отображения
-    private Long selectedAuthorId;// текущий автор книги из списка при редактировании книги
-    private ArrayList<Integer> pageNumbers = new ArrayList<Integer>(); // кол-во страниц для постраничности
+    private Long selectedAuthorId; // current author id when book is editing.
+//    private List<Book> currentBookList; // текущий список книг для отображения
+//    private Long selectedAuthorId;// текущий автор книги из списка при редактировании книги
+//    private ArrayList<Integer> pageNumbers = new ArrayList<Integer>(); // кол-во страниц для постраничности
     // критерии поиска
     private char selectedLetter; // выбранная буква алфавита, по умолчанию не выбрана ни одна буква
     private SearchType selectedSearchType = SearchType.TITLE;// хранит выбранный тип поиска, по-умолчанию - по названию
     private long selectedGenreId; // выбранный жанр
     private String currentSearchString; // хранит поисковую строку
     // для постраничности----
-    private boolean pageSelected;
-    private int booksCountOnPage = 2;// кол-во отображаемых книг на 1 странице
-    private long selectedPageNumber = 1; // выбранный номер страницы в постраничной навигации
-    private long totalBooksCount; // общее кол-во книг (не на текущей странице, а всего), нажно для постраничности
+    private Pager<Book> pager = new Pager<Book>();
+//    private boolean pageSelected;
+//    private int booksCountOnPage = 2;// кол-во отображаемых книг на 1 странице
+//    private long selectedPageNumber = 1; // выбранный номер страницы в постраничной навигации
+//    private long totalBooksCount; // общее кол-во книг (не на текущей странице, а всего), нажно для постраничности
     //-------
     private boolean editModeView;// отображение режима редактирования
 
@@ -47,15 +50,15 @@ public class BookListController implements Serializable {
 
     private void submitValues(Character selectedLetter, long selectedPageNumber, long selectedGenreId, boolean requestFromPager) {
         this.selectedLetter = selectedLetter;
-        this.selectedPageNumber = selectedPageNumber;
+//        this.selectedPageNumber = selectedPageNumber;
         this.selectedGenreId = selectedGenreId;
-        this.pageSelected = requestFromPager;
+//        this.pageSelected = requestFromPager;
 
     }
 
     //<editor-fold defaultstate="collapsed" desc="запросы в базу">
     private void fillBooksAll() {
-        currentBookList = DataHelper.getInstance().getAllBooks();
+        DataHelper.getInstance().getAllBooks(pager);
     }
 
     public String fillBooksByGenre() {
@@ -63,9 +66,12 @@ public class BookListController implements Serializable {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 
         selectedGenreId = Long.valueOf(params.get("genre_id"));
-
         submitValues(' ', 1, selectedGenreId, false);
+        if(selectedGenreId == 0){
+         fillBooksAll();
+        }else{
         currentBookList = DataHelper.getInstance().getBookByGenre(selectedGenreId);
+        }
 
         return "books";
     }

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ua.onlinelib.web.ENTITY.Book;
 import ua.onlinelib.web.controllers.BookListController;
 import ua.onlinelib.web.db.DataHelper;
 
@@ -39,7 +40,8 @@ public class ShowImage extends HttpServlet {
             BookListController searchController = (BookListController) request.getSession(false).getAttribute("bookListController");
 
 //            byte[] image = searchController.getImage(id);
-            byte[] image = DataHelper.getInstance().getImage(id);
+            byte[] image = ((Book)BookListController.getPager().getList().getImage(id)).getImage();
+//            byte[] image = DataHelper.getInstance().getImage(id);
             response.setContentLength(image.length);
             out.write(image);
         } catch (NumberFormatException ex) {

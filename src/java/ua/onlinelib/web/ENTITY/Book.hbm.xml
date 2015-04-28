@@ -8,13 +8,13 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="author" class="ua.onlinelib.web.ENTITY.Author" fetch="select">
+        <many-to-one name="author" class="ua.onlinelib.web.ENTITY.Author" fetch="join">
             <column name="author_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="genre" class="ua.onlinelib.web.ENTITY.Genre" fetch="select">
+        <many-to-one name="genre" class="ua.onlinelib.web.ENTITY.Genre" fetch="join">
             <column name="genre_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="publisher" class="ua.onlinelib.web.ENTITY.Publisher" fetch="select">
+        <many-to-one name="publisher" class="ua.onlinelib.web.ENTITY.Publisher" fetch="join">
             <column name="publisher_id" not-null="true" />
         </many-to-one>
         <property name="name" type="string">
