@@ -35,12 +35,13 @@ public class ShowImage extends HttpServlet {
         response.setContentType("image/jpeg");
         OutputStream out = response.getOutputStream();
         try {
-            Long id = Long.valueOf(request.getParameter("id"));
+            Integer id = Integer.valueOf(request.getParameter("index"));
 
-            BookListController searchController = (BookListController) request.getSession(false).getAttribute("bookListController");
+            BookListController bookListController = (BookListController) request.getSession(false).getAttribute("bookListController");
 
-//            byte[] image = searchController.getImage(id);
-            byte[] image = ((Book)BookListController.getPager().getList().getImage(id)).getImage();
+//            byte[] image;
+//            image = ((Book)BookListController.getPager().getList().get(id)).getImage();
+            byte[] image = ((Book) bookListController.getPager().getList().get(id)).getImage();
 //            byte[] image = DataHelper.getInstance().getImage(id);
             response.setContentLength(image.length);
             out.write(image);

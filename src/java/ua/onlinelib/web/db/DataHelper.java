@@ -43,7 +43,11 @@ public class DataHelper {
     }
 
     public static DataHelper getInstance() {
-        return dataHelper == null ? new DataHelper() : dataHelper;
+//        return dataHelper == null ? new DataHelper() : dataHelper;
+        if(dataHelper == null){
+            dataHelper = new DataHelper();
+        }
+        return dataHelper;
     }
 
     public void runCurrentCriteria() {
@@ -65,7 +69,7 @@ public class DataHelper {
         currentPager = pager;
 
         Criteria criteria = getSession().createCriteria(Book.class);
-        Integer totalBooks = (Integer) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        int totalBooks = Integer.valueOf(criteria.setProjection(Projections.rowCount()).uniqueResult().toString());
 
         currentPager.setTotalBooksCount(totalBooks);
         currentCriteria = DetachedCriteria.forClass(Book.class);
@@ -86,7 +90,7 @@ public class DataHelper {
         Criterion criterion = Restrictions.eq("genre.id", genreId);
 
         Criteria criteria = getSession().createCriteria(Book.class);
-        Integer total = (Integer) criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult();
+        Integer total = Integer.valueOf(criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult().toString());
         currentPager.setTotalBooksCount(total);
 
         currentCriteria = DetachedCriteria.forClass(Book.class);
@@ -101,7 +105,7 @@ public class DataHelper {
         Criterion criterion = Restrictions.ilike("name", letter.toString(), MatchMode.START);
 
         Criteria criteria = getSession().createCriteria(Book.class);
-        Integer total = (Integer) criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult();
+        Integer total = Integer.valueOf(criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult().toString());
         currentPager.setTotalBooksCount(total);
 
         currentCriteria = DetachedCriteria.forClass(Book.class);
@@ -116,7 +120,7 @@ public class DataHelper {
         Criterion criterion = Restrictions.ilike("author.fio", authorName, MatchMode.ANYWHERE);
 
         Criteria criteria = getSession().createCriteria(Book.class, "book").createAlias("book.author", "author");
-        Integer total = (Integer) criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult();
+        Integer total = Integer.valueOf(criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult().toString());
         currentPager.setTotalBooksCount(total);
 
         currentCriteria = DetachedCriteria.forClass(Book.class, "book").createAlias("book.author", "author");;
@@ -130,7 +134,7 @@ public class DataHelper {
 
         Criterion criterion = Restrictions.ilike("name", bookName, MatchMode.ANYWHERE);
         Criteria criteria = getSession().createCriteria(Book.class);
-        Integer total = (Integer) criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult();
+        Integer total = Integer.valueOf(criteria.add(criterion).setProjection(Projections.rowCount()).uniqueResult().toString());
         currentPager.setTotalBooksCount(total);
 
         currentCriteria = DetachedCriteria.forClass(Book.class);
@@ -165,11 +169,9 @@ public class DataHelper {
 //    public byte[] getContent(Long contentId) {
 //        return (byte[]) getFieldValue("content", contentId);
 //    }
-
-    public byte[] getImage(Long imageId) {
-        return (byte[]) getFieldValue("image", imageId);
-    }
-
+//    public byte[] getImage(Long imageId) {
+//        return (byte[]) getFieldValue("image", imageId);
+//    }
     // private methods            
     private List<Book> getBookList(String field, String value, MatchMode matchMode) {
         return getSession().createCriteria(Book.class).add(Restrictions.ilike(field, value, matchMode)).list();
