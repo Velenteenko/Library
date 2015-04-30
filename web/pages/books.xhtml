@@ -58,7 +58,9 @@
                         <h:column>
 
                             <h:outputLink styleClass="content_link" value="#{request.contextPath}/PdfContent"  target="_blank">                                                             
-                                <h:graphicImage  value="/ShowImage?index=#{bookListController.pager.list.indexOf(b)}" width="160" height="220"/>
+<!--                                <h:graphicImage  value="/ShowImage?index=#{b.id}" width="160" height="220"/>-->
+                                <h:graphicImage value="/ShowImage?index=#{b.id}" width="160" height="220"/>
+<!--<f:param name="indexImg" value="#{b.id}"/>-->
                                 <f:param name="id" value="#{b.id}"/>
                             </h:outputLink> 
 
@@ -184,7 +186,7 @@
                         <f:selectItem itemValue="10" />
                         <f:selectItem itemValue="30" />
                         <f:selectItem itemValue="50" />
-                        <f:ajax event="change" execute="@form" onevent="showProgress" render=":booksForm :booksForm:booksList :pages1 :pages2"  />
+                        <f:ajax event="change" execute="@form" onevent="showProgress" render="booksForm booksList pages1 pages2"  />
                     </h:selectOneMenu>
 
                     #{msg.pager}
@@ -195,7 +197,8 @@
 
                         <h:commandLink value="#{pageNumber}" rendered="#{pageNumber != bookListController.pager.selectedPageNumber}" styleClass="page_number">
                             <f:param name="page_number" value="#{pageNumber}" />
-                            <f:ajax onevent="showProgress" event="click" render=":booksForm :booksForm:booksList :lettersForm :pages1 :pages2" listener="#{bookListController.selectPage()}"/>
+                            <f:ajax onevent="showProgress" event="click" render="booksForm booksList pages1 pages2" listener="#{bookListController.selectPage()}"/>
+                            
                         </h:commandLink>
                     </ui:repeat>
 

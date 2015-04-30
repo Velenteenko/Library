@@ -167,6 +167,7 @@ public class BookListController implements Serializable {
 //        imitateLoading();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 //        selectedPageNumber = Integer.valueOf(params.get("page_number"));
+        pager.clearList();
         pager.setSelectedPageNumber(Integer.valueOf(params.get("page_number")));
         DataHelper.getInstance().runCurrentCriteria();
 

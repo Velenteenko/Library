@@ -36,6 +36,10 @@ public class Pager<T> {
     public void setList(List<T> list) {
         this.list = list;
     }
+    
+    public void clearList(){
+        this.list.clear();
+    }
 
     public int getTotalBooksCount() {
         return totalBooksCount;

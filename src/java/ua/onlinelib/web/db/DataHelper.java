@@ -39,12 +39,12 @@ public class DataHelper {
     }
 
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return sessionFactory.openSession();
     }
 
     public static DataHelper getInstance() {
 //        return dataHelper == null ? new DataHelper() : dataHelper;
-        if(dataHelper == null){
+        if (dataHelper == null) {
             dataHelper = new DataHelper();
         }
         return dataHelper;
@@ -53,6 +53,7 @@ public class DataHelper {
     public void runCurrentCriteria() {
         Criteria criteria = currentCriteria.addOrder(Order.asc("name")).getExecutableCriteria(getSession());
         List<Book> list = criteria.setFirstResult(currentPager.getFrom()).setMaxResults(currentPager.getTo()).list();
+//        currentPager.setList(list);
         currentPager.setList(list);
     }
 //    public List<Book> getAllBooks() {
@@ -146,6 +147,13 @@ public class DataHelper {
     public byte[] getContent(Long id) {
         Criteria criteria = getSession().createCriteria(Book.class);
         criteria.setProjection(Property.forName("content"));
+        criteria.add(Restrictions.eq("id", id));
+        return (byte[]) criteria.uniqueResult();
+    }
+
+    public byte[] getImage(Long id) {
+        Criteria criteria = getSession().createCriteria(Book.class);
+        criteria.setProjection(Property.forName("image"));
         criteria.add(Restrictions.eq("id", id));
         return (byte[]) criteria.uniqueResult();
     }
