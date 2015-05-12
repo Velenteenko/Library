@@ -24,7 +24,7 @@ import ua.onlinelib.web.db.DataHelper;
 
 @ManagedBean(eager = false)
 @ApplicationScoped
-public class GenreConvertor implements Serializable, Converter {
+public class GenreConverter implements Serializable, Converter {
 
     private List<Genre> genreList;
     private Map<Long, Genre> genreMap;
@@ -32,7 +32,7 @@ public class GenreConvertor implements Serializable, Converter {
 //    private List<SelectItem> ArrayList;
 //    private List<SelectItem> SelectItem;
 
-    public GenreConvertor() {
+    public GenreConverter() {
 //        fillAllGenres();
         genreMap = new HashMap<Long, Genre>();
         genreList = DataHelper.getInstance().getAllGenres();

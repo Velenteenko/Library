@@ -1,6 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package ua.onlinelib.web.filters;
@@ -25,20 +24,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import ua.onlinelib.web.ENTITY.HibernateUtil;
 
-/**
- *
- * @author velenteenko
- */
-@WebFilter(filterName = "HibernateSession", urlPatterns = {"/pages/*", "/PdfContent"})
+@WebFilter(filterName = "HibernateSession",
+urlPatterns = {"/pages/*", "/PdfContent"})
 public class HibernateSession implements Filter {
 
     private SessionFactory sessionFactory;
     private static final boolean debug = false;
-
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -47,14 +41,14 @@ public class HibernateSession implements Filter {
     public HibernateSession() {
     }
 
-    private void doBeforeProcessing(RequestWrapper request, ResponseWrapper response)
+    private void doBeforeProcessing(HibernateSession.RequestWrapper request, HibernateSession.ResponseWrapper response)
             throws IOException, ServletException {
         if (debug) {
-            log("HibernateSession:DoBeforeProcessing");
+            log("CheckSessionFilter:DoBeforeProcessing");
         }
-
-	// Write code here to process the request and/or response before
+        // Write code here to process the request and/or response before
         // the rest of the filter chain is invoked.
+
         // For example, a filter that implements setParameter() on a request
         // wrapper could set parameters on the request before passing it on
         // to the filter chain.
@@ -64,6 +58,7 @@ public class HibernateSession implements Filter {
          request.setParameter("name1", valsOne);
          request.setParameter("nameTwo", valsTwo);
          */
+
         // For example, a logging filter might log items on the request object,
         // such as the parameters.
 	/*
@@ -84,14 +79,15 @@ public class HibernateSession implements Filter {
          */
     }
 
-    private void doAfterProcessing(RequestWrapper request, ResponseWrapper response)
+    private void doAfterProcessing(HibernateSession.RequestWrapper request, HibernateSession.ResponseWrapper response)
             throws IOException, ServletException {
         if (debug) {
-            log("HibernateSession:DoAfterProcessing");
+            log("CheckSessionFilter:DoAfterProcessing");
         }
 
-	// Write code here to process the request and/or response after
+        // Write code here to process the request and/or response after
         // the rest of the filter chain is invoked.
+
         // For example, a logging filter might log the attributes on the
         // request object after the request has been processed. 
 	/*
@@ -102,6 +98,7 @@ public class HibernateSession implements Filter {
 
          }
          */
+
         // For example, a filter might append something to the response.
 	/*
          PrintWriter respOut = new PrintWriter(response.getWriter());
@@ -136,21 +133,35 @@ public class HibernateSession implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
 
-        RequestWrapper wrappedRequest = new RequestWrapper((HttpServletRequest) request);
-        ResponseWrapper wrappedResponse = new ResponseWrapper((HttpServletResponse) response);
+
+        HibernateSession.RequestWrapper wrappedRequest = new HibernateSession.RequestWrapper((HttpServletRequest) request);
+        HibernateSession.ResponseWrapper wrappedResponse = new HibernateSession.ResponseWrapper((HttpServletResponse) response);
+
+
+
+
+//        String path = wrappedRequest.getRequestURI().substring(wrappedRequest.getContextPath().length());
+
+//        if (!path.startsWith(ResourceHandler.RESOURCE_IDENTIFIER)) {
         System.out.println("open session for " + wrappedRequest.getRequestURI());
         sessionFactory.getCurrentSession().beginTransaction();
+//        }
+
         try {
 
             if (debug) {
                 log("CheckSessionFilter:doFilter()");
             }
 
+
+
             doBeforeProcessing(wrappedRequest, wrappedResponse);
+
 
             chain.doFilter(wrappedRequest, wrappedResponse);
 
@@ -158,8 +169,13 @@ public class HibernateSession implements Filter {
 
             doAfterProcessing(wrappedRequest, wrappedResponse);
 
+//            if (!path.startsWith(ResourceHandler.RESOURCE_IDENTIFIER)) {
             sessionFactory.getCurrentSession().getTransaction().commit();
             System.out.println("close session for " + wrappedRequest.getRequestURI());
+//            }
+
+
+
 
             // If there was a problem, we want to rethrow it if it is
             // a known type, otherwise log it.

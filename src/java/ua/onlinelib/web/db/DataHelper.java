@@ -14,9 +14,11 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import ua.onlinelib.web.ENTITY.Author;
 import ua.onlinelib.web.ENTITY.Book;
 import ua.onlinelib.web.ENTITY.Genre;
@@ -33,9 +35,21 @@ public class DataHelper {
     private static DataHelper dataHelper;
     private DetachedCriteria currentCriteria;
     private Pager currentPager;
+    private ProjectionList projectionsList;
 
     private DataHelper() {
         sessionFactory = HibernateUtil.getSessionFactory();
+        
+        projectionsList = Projections.projectionList();
+        projectionsList.add(Projections.property("id"),"id");
+        projectionsList.add(Projections.property("name"),"name");
+        projectionsList.add(Projections.property("pageCount"),"pageCount");
+        projectionsList.add(Projections.property("isbn"),"isbn");
+        projectionsList.add(Projections.property("genre"),"genre");
+        projectionsList.add(Projections.property("publishYear"),"publishYear");
+        projectionsList.add(Projections.property("descr"),"descr");
+        projectionsList.add(Projections.property("author"),"author");
+        
     }
 
     private Session getSession() {
@@ -52,6 +66,7 @@ public class DataHelper {
 
     public void runCurrentCriteria() {
         Criteria criteria = currentCriteria.addOrder(Order.asc("name")).getExecutableCriteria(getSession());
+        criteria.setProjection(projectionsList).setResultTransformer(Transformers.aliasToBean(Book.class));
         List<Book> list = criteria.setFirstResult(currentPager.getFrom()).setMaxResults(currentPager.getTo()).list();
 //        currentPager.setList(list);
         currentPager.setList(list);

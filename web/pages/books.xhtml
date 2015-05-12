@@ -57,18 +57,15 @@
                     <h:dataTable id="booksList" value="#{bookListController.pager.list}" var="b" cellspacing="10px" columnClasses="col1, col2, col3"> 
                         <h:column>
 
-                            <h:outputLink styleClass="content_link" value="#{request.contextPath}/PdfContent"  target="_blank">                                                             
+                            <h:outputLink styleClass="content_link" value="#{request.contextPath}/PdfContent" target="_blank" >                                                             
 <!--                                <h:graphicImage  value="/ShowImage?index=#{b.id}" width="160" height="220"/>-->
                                 <h:graphicImage value="/ShowImage?index=#{b.id}" width="160" height="220"/>
 <!--<f:param name="indexImg" value="#{b.id}"/>-->
+                                
                                 <f:param name="id" value="#{b.id}"/>
+
                             </h:outputLink> 
-
-<!--                            <h:graphicImage onclick="newWindowFor('#{request.contextPath}/PdfContent?id=#{b.id}')" value="/ShowImage?index=#{bookListController.pager.list.indexOf(b)}" width="160" height="220">
-                            </h:graphicImage>-->
-
-
-
+                            <!--<h:graphicImage onclick="openReader('#{request.contextPath}/PdfContent?id=#{b.id}','#{b.name}')" value="/ShowImage?index=#{b.id}" width="160" height="220"/>-->
                         </h:column>
 
                         <h:column>
@@ -89,8 +86,8 @@
                                     <strong>#{msg.author_name}: </strong>
                                     <h:outputText value="#{b.author.fio}" rendered="#{!b.edit}"/>
 
-                                    <h:selectOneMenu rendered="#{b.edit}" value="#{b.author}" converter="#{authorController}">
-                                        <f:selectItems value="${authorController.selectItems}"/>
+                                    <h:selectOneMenu rendered="#{b.edit}" value="#{b.author}" converter="#{authorConverter}">
+                                        <f:selectItems value="${authorConverter.selectedItems}"/>
                                     </h:selectOneMenu>
                                 </p>
 
@@ -167,9 +164,9 @@
 
 
                         <h:column>       
-                            <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{!bookListController.editMode}"/>                              
+                            <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{(!bookListController.editMode) and (request.isUserInRole('ADMIN'))}">
+                            </h:selectBooleanCheckbox>
                         </h:column>
-
 
 
                     </h:dataTable>
@@ -198,7 +195,7 @@
                         <h:commandLink value="#{pageNumber}" rendered="#{pageNumber != bookListController.pager.selectedPageNumber}" styleClass="page_number">
                             <f:param name="page_number" value="#{pageNumber}" />
                             <f:ajax onevent="showProgress" event="click" render="booksForm booksList pages1 pages2" listener="#{bookListController.selectPage()}"/>
-                            
+
                         </h:commandLink>
                     </ui:repeat>
 

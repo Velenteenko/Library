@@ -20,8 +20,8 @@ function showProgress(data) {
     }
 }
 
-function newWindowFor(urlNewWindow){
-    var win1 = window.open(urlNewWindow,'ShowPDF','width=600,height=800'); 
+function openReader(urlNewWindow, bookName){
+    var win1 = window.open(urlNewWindow,'newWin','width=600,height=800');
 //    return true;
 }
 
