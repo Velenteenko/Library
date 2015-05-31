@@ -9,6 +9,10 @@
     <role-name>USER</role-name>
     <group-name>USER</group-name>
   </security-role-mapping>
+  <resource-ref>
+    <res-ref-name>jdbc/Library</res-ref-name>
+    <jndi-name>jdbc/Library</jndi-name>
+  </resource-ref>
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="true">

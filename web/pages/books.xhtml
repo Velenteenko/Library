@@ -93,7 +93,7 @@
 
                                 <p>
                                     <h:panelGroup rendered="#{b.edit}">
-                                        <strong>#{msg.genres}: </strong>                                    
+                                        <strong>#{msg.genres} </strong>                                    
                                         <h:selectOneMenu  value="#{b.genre.name}" converter="#{genreController}">
                                             <f:selectItems value="${genreController.selectItems}"/>
                                         </h:selectOneMenu>
